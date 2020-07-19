@@ -1,6 +1,7 @@
 package BST;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class BinaryNode<T> {
     private T value;
@@ -66,26 +67,21 @@ public class BinaryNode<T> {
     //      #####     #####    #####     #####     #####     #####     #####
     // #####    #####     #####     #####     #####     #####     #####     #####
 
-    void traversalPreOrder(Consumer<BinaryNode<T>> visit)
+   public void traversalPreOrder() {
+       System.out.println(value);
+       if (leftChild != null) leftChild.traversalPreOrder();
+       if (rightChild != null) rightChild.traversalPreOrder();
+   }
+   public void traversalInOrder()
+   {
+       if (leftChild != null) leftChild.traversalInOrder();
+       System.out.println(value);
+       if (rightChild != null) rightChild.traversalInOrder();
+   }
+   public void traversalPostOrder()
     {
-        visit.accept(this);
-        if (leftChild != null) leftChild.traversalPreOrder(visit);
-        if (rightChild != null) rightChild.traversalPreOrder(visit);
+        if (leftChild != null) leftChild.traversalPostOrder();
+        if (rightChild != null) rightChild.traversalPostOrder();
+        System.out.println(value);
     }
-
-    void traversalInOrder(Consumer<BinaryNode<T>> visit)
-    {
-        if (leftChild != null) leftChild.traversalInOrder(visit);
-        visit.accept(this);
-        if (rightChild != null) rightChild.traversalInOrder(visit);
-
-    }
-
-    void traversalPostOrder(Consumer<BinaryNode<T>> visit)
-    {
-        if (leftChild != null) leftChild.traversalPostOrder(visit);
-        if (rightChild != null) rightChild.traversalPostOrder(visit);
-        visit.accept(this);
-    }
-
 }

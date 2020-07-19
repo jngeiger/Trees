@@ -13,6 +13,11 @@ public class BST<T extends Comparable<? super T>> {
         root = new BinaryNode<T>(value);
     }
 
+    public BinaryNode<T> getRoot()
+    {
+        return root;
+    }
+
     public String toString()
     {
         return root.toString();

@@ -70,6 +70,7 @@ public class TreeNode<T> {
         }
     }
 
+
 /*
     Alternative Version die nur ein dynamisch wachsendes Array benötigt und einen
     Zähler verwendet.

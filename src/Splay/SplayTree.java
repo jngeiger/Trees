@@ -1,24 +1,21 @@
 package Splay;
 
+import javax.swing.plaf.IconUIResource;
+
 public class SplayTree<T extends Comparable<? super T>> {
-
     public SplayNode<T> root;
-
     SplayTree()
     {
         root = null;
     }
-
     SplayTree(T value)
     {
         root = new SplayNode<T>(value);
     }
-
     public String toString()
     {
         return root.toString();
     }
-
     public void insert(T value)
     {
 
@@ -27,7 +24,6 @@ public class SplayTree<T extends Comparable<? super T>> {
             root = new SplayNode<T>(value);
             return;
         }
-
         SplayNode<T> newNode = new SplayNode<T>(value);
 
         // Knoten oder des Mutter in die Wurzel splayen
@@ -48,50 +44,28 @@ public class SplayTree<T extends Comparable<? super T>> {
             root = newNode;
         }
     }
-
-    // #####     #####     #####     #####     #####     #####     #####     #####
-    //      #####     #####     #####     #####     #####     #####     #####
-    // #####     #####     #####     #####     #####     #####     #####     #####
-
     public Boolean isIn(T value)
     {
         root = splay(root, value);
         return (root.getValue().compareTo(value) == 0);
     }
-
-    // #####     #####     #####     #####     #####     #####     #####     #####
-    //      #####     #####     #####     #####     #####     #####     #####
-    // #####     #####     #####     #####     #####     #####     #####     #####
-
     public void delete(T value)
     {
         if (isIn(value))
         {
-            System.out.println("Wert jetzt in der Wurzel, bitte loeschen");
+            if (root.leftChild == null && root.rightChild == null)
+                root = null;
+            else if (root.leftChild == null)
+                root = root.rightChild;
+            else if (root.rightChild == null)
+                root = root.leftChild;
+            else {
+                T replacement = getMinValue(root.rightChild);
+                root.setValue(replacement);
+                root.rightChild = deleteMinNode(root.rightChild);
+            }
         }
     }
-    /*
-    private SplayNode<T> _delete(SplayNode<T> currentNode, T value)
-    {
-        if (currentNode == null) return null;
-        if (value.compareTo(currentNode.getValue()) == 0)
-        {
-            if ((currentNode.leftChild == null) && (currentNode.rightChild == null)) return null;
-            if (currentNode.leftChild == null) return currentNode.rightChild;
-            if (currentNode.rightChild == null) return currentNode.leftChild;
-            T replacement = getMinValue(currentNode.rightChild);
-            currentNode.setValue(replacement);
-            currentNode.rightChild = _delete(currentNode.rightChild, replacement);
-        }
-        else if (value.compareTo(currentNode.getValue()) < 0) // >
-            currentNode.leftChild = _delete(currentNode.leftChild, value);
-        else
-            currentNode.rightChild = _delete(currentNode.rightChild, value);
-
-        return currentNode;
-    }
-    */
-
     private T getMinValue(SplayNode<T> forNode)
     {
         while(forNode.leftChild != null)
@@ -100,11 +74,15 @@ public class SplayTree<T extends Comparable<? super T>> {
         }
         return forNode.getValue();
     }
-
-    // #####     #####     #####     #####     #####     #####     #####     #####
-    //      #####     #####     #####     #####     #####     #####     #####
-    // #####     #####     #####     #####     #####     #####     #####     #####
-
+    private SplayNode<T> deleteMinNode(SplayNode<T> currentNode)
+    {
+        if (currentNode.leftChild != null)
+            currentNode.leftChild = deleteMinNode(currentNode.leftChild);
+        else {
+            return currentNode.rightChild;
+        }
+        return currentNode;
+    }
     private SplayNode<T> splay(SplayNode<T> node, T value)
     {
         if ((node == null) || (value.compareTo(node.getValue()) == 0)) return node;
@@ -182,17 +160,11 @@ public class SplayTree<T extends Comparable<? super T>> {
 
         return pivot;
     }
-
-    // #####     #####     #####     #####     #####     #####     #####     #####
-    //      #####     #####     #####     #####     #####     #####     #####
-    // #####     #####     #####     #####     #####     #####     #####     #####
-
     public void printWayToNode(T value)
     {
         // Ausgabe der Knoten von der Wurzel zum Knoten mit "value"
         _printWayToNode(root, value);
     }
-
     private void _printWayToNode(SplayNode<T> currentNode, T value)
     {
         if (currentNode == null) return;
@@ -205,13 +177,11 @@ public class SplayTree<T extends Comparable<? super T>> {
         else
             _printWayToNode(currentNode.rightChild, value);
     }
-
     public void printWayBack(T value)
     {
         // Ausgabe von Wurzel rauf zum Knoten
         _printWayBack(root,value);
     }
-
     private void _printWayBack(SplayNode<T> currentNode, T value)
     {
         if (currentNode == null) return;
@@ -227,5 +197,4 @@ public class SplayTree<T extends Comparable<? super T>> {
             _printWayBack(currentNode.rightChild, value);
         System.out.println(currentNode.getValue());
     }
-
 }
