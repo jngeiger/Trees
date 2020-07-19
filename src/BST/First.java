@@ -11,7 +11,7 @@ public class First {
         for (int v : complexContent)
             complexTree.insert(v);
         System.out.println(complexTree);
-        BinaryNode<Integer> root = complexTree.getRoot();
-        root.traversalPostOrder();
+       complexTree.deleteIter(25);
+        System.out.println(complexTree);
     }
 }

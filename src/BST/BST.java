@@ -94,6 +94,68 @@ public class BST<T extends Comparable<? super T>> {
     //      #####     #####     #####     #####     #####     #####     #####
     // #####     #####     #####     #####     #####     #####     #####     #####
 
+    public void deleteIter(T value)
+    {
+        BinaryNode<T> parent = root;
+        BinaryNode<T> currentNode = root;
+
+        while (currentNode != null)
+        {
+            if (currentNode.getValue().compareTo(value) == 0)
+            {
+                break;
+            }
+            parent = currentNode;
+            if (value.compareTo(currentNode.getValue())< 0)
+            {
+                currentNode = currentNode.leftChild;
+            }
+            else {
+                currentNode = currentNode.rightChild;
+            }
+        }
+        if (currentNode == null) return;
+        else {
+            if (parent.rightChild == currentNode)
+            {
+                if (currentNode.leftChild == null && currentNode.rightChild == null)
+                {
+                    parent.rightChild = null;
+                }
+                else if (currentNode.leftChild == null)
+                {
+                    parent.rightChild = currentNode.rightChild;
+                }
+                else if (currentNode.rightChild == null) {
+                    parent.rightChild = currentNode.leftChild;
+                }
+                else {
+                    T replacement = getMinValue(currentNode.rightChild);
+                    deleteIter(replacement);
+                    currentNode.setValue(replacement);
+                }
+            }
+            else
+            {
+                if (currentNode.leftChild == null && currentNode.rightChild == null)
+                {
+                    parent.leftChild = null;
+                }
+                else if (currentNode.leftChild == null)
+                {
+                    parent.leftChild = currentNode.rightChild;
+                }
+                else if (currentNode.rightChild == null) {
+                    parent.leftChild = currentNode.leftChild;
+                }
+                else {
+                    T replacement = getMinValue(currentNode.rightChild);
+                    deleteIter(replacement);
+                    currentNode.setValue(replacement);
+                }
+            }
+        }
+    }
     public void delete(T value)
     {
         root = _delete(root, value);
