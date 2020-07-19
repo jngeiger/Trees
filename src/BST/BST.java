@@ -102,19 +102,21 @@ public class BST<T extends Comparable<? super T>> {
         while (currentNode != null)
         {
             if (currentNode.getValue().compareTo(value) == 0)
-            {
                 break;
-            }
             parent = currentNode;
             if (value.compareTo(currentNode.getValue())< 0)
-            {
                 currentNode = currentNode.leftChild;
-            }
-            else {
+            else
                 currentNode = currentNode.rightChild;
-            }
         }
         if (currentNode == null) return;
+
+        else if (currentNode.rightChild != null && currentNode.leftChild != null){
+        T replacement = getMinValue(currentNode.rightChild);
+        deleteIter(replacement);
+        currentNode.setValue(replacement);
+        }
+
         else {
             if (parent.rightChild == currentNode)
             {
@@ -129,11 +131,6 @@ public class BST<T extends Comparable<? super T>> {
                 else if (currentNode.rightChild == null) {
                     parent.rightChild = currentNode.leftChild;
                 }
-                else {
-                    T replacement = getMinValue(currentNode.rightChild);
-                    deleteIter(replacement);
-                    currentNode.setValue(replacement);
-                }
             }
             else
             {
@@ -147,11 +144,6 @@ public class BST<T extends Comparable<? super T>> {
                 }
                 else if (currentNode.rightChild == null) {
                     parent.leftChild = currentNode.leftChild;
-                }
-                else {
-                    T replacement = getMinValue(currentNode.rightChild);
-                    deleteIter(replacement);
-                    currentNode.setValue(replacement);
                 }
             }
         }

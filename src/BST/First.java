@@ -11,7 +11,7 @@ public class First {
         for (int v : complexContent)
             complexTree.insert(v);
         System.out.println(complexTree);
-       complexTree.deleteIter(25);
+       complexTree.deleteIter(50);
         System.out.println(complexTree);
     }
 }
